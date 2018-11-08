@@ -29,6 +29,18 @@ public class ThreadedSearch<T> implements Searcher<T>, Runnable {
      * You can assume that the list size is divisible by `numThreads`
      */
     public boolean search(T target, List<T> list) throws InterruptedException {
+        Answer answer = new Answer();
+        Thread[] threads = new Thread[numThreads];
+        for (int i=0; i<numThreads; i++){
+          threads[i] = new Thread(new )
+
+          threads[i].start();
+        }
+        // Wait for all the threads to finish
+        for (int i=0; i<numThreads; i++) {
+          threads[i].join();
+        }
+      }
         /*
          * First construct an instance of the `Answer` inner class. This will
          * be how the threads you're about to create will "communicate". They
@@ -49,10 +61,13 @@ public class ThreadedSearch<T> implements Searcher<T>, Runnable {
          * threads, wait for them to all terminate, and then return the answer
          * in the shared `Answer` instance.
          */
-        return false;
+        return answer.getAnswer();
     }
 
     public void run() {
+      if (target != null) {
+        target.run();
+      }
         // Delete this `throw` when you actually implement this method.
         throw new UnsupportedOperationException();
     }
