@@ -32,15 +32,17 @@ public class ThreadedSearch<T> implements Searcher<T>, Runnable {
         Answer answer = new Answer();
         Thread[] threads = new Thread[numThreads];
         for (int i=0; i<numThreads; i++){
-          threads[i] = new Thread(new )
-
+          int begin = (list.size() *i)/ numThreads;
+          int end = (list.size() *(i+1))/ numThreads;
+          ThreadedSearch<T> threadedSearch = new ThreadedSearch<T>(target, list, begin, end, answer);
+          threads[i] = new Thread(threadedSearch);
           threads[i].start();
         }
         // Wait for all the threads to finish
         for (int i=0; i<numThreads; i++) {
           threads[i].join();
         }
-      }
+
         /*
          * First construct an instance of the `Answer` inner class. This will
          * be how the threads you're about to create will "communicate". They
@@ -65,11 +67,14 @@ public class ThreadedSearch<T> implements Searcher<T>, Runnable {
     }
 
     public void run() {
-      if (target != null) {
-        target.run();
+      for (int i=0; i<end; i++){
+        if (answer.getAnswer() == true){
+          break;
+        }
+        if (list.get(i).equals(target)){
+          answer.setAnswer(true);
+        }
       }
-        // Delete this `throw` when you actually implement this method.
-        throw new UnsupportedOperationException();
     }
 
     private class Answer {
@@ -95,5 +100,4 @@ public class ThreadedSearch<T> implements Searcher<T>, Runnable {
             answer = newAnswer;
         }
     }
-
 }
